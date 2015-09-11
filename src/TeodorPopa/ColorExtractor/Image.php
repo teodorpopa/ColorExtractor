@@ -121,7 +121,7 @@ class Image
             $totalColors += $colorCount;
         }
 
-        foreach($colorsArray as $color => $colorCount) {
+        foreach ($colorsArray as $color => $colorCount) {
             $percentage = ($colorCount/$totalColors) * 100;
             $percentageArray[$color] = number_format($percentage, 2, ".", "");
         }
@@ -172,7 +172,7 @@ class Image
                     continue;
                 }
 
-                $color = ($rgba['red']*65536) + ($rgba['green']*256) + ($rgba['blue']);
+                $color = ($rgba['red'] * 65536) + ($rgba['green'] * 256) + ($rgba['blue']);
 
                 if (isset($colors[$color])) {
                     $colors[$color]++;
@@ -250,8 +250,7 @@ class Image
             / 2;
 
         return $saturation < .5 ?
-            (1 - $luminosity) * $count / $colorsCount :
-            $count * $saturation * $luminosity;
+            (1 - $luminosity) * $count / $colorsCount : $count * $saturation * $luminosity;
     }
 
     /**
@@ -278,8 +277,7 @@ class Image
         $component /= 255;
 
         return $component <= .03928 ?
-            $component / 12.92 :
-            pow(($component + .055) / 1.055, 2.4);
+            $component / 12.92 : pow(($component + .055) / 1.055, 2.4);
     }
 
     /**
@@ -323,7 +321,6 @@ class Image
     protected function xyzToLabStep($XYZComponent)
     {
         return $XYZComponent > pow(6 / 29, 3) ?
-            pow($XYZComponent, 1 / 3) :
-            (1 / 3) * pow(29 / 6, 2) * $XYZComponent + (4 / 29);
+            pow($XYZComponent, 1 / 3) : (1 / 3) * pow(29 / 6, 2) * $XYZComponent + (4 / 29);
     }
 }

@@ -19,7 +19,7 @@ class ColorExtractor
         try {
             $imageInfo = getimagesize($imagePath);
 
-            if(!is_array($imageInfo) || empty($imageInfo[2])) {
+            if (!is_array($imageInfo) || empty($imageInfo[2])) {
                 throw new \Exception('Error reading the image type');
             }
 

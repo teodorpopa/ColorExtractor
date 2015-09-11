@@ -36,6 +36,7 @@ class Image
     public function extract($maxPaletteSize = 8)
     {
         $colors = $this->getImageColors();
+        $colorPercentage = $this->getPercentageOfColors($colors);
 
         $totalColorCount = $finalColorCount = count($colors);
 
@@ -89,7 +90,11 @@ class Image
                         $j--;
                         $mergeCount++;
                         prev($colors);
+
+                        $colorPercentage[$refColor] += $colorPercentage[$cmpColor];
                         unset($colors[$cmpColor]);
+                        unset($colorPercentage[$cmpColor]);
+
                         if ($i > 1) {
                             $i = 0;
                         }
@@ -98,16 +103,38 @@ class Image
             }
         }
 
-        $finalColors = $this->parseFinalColors($colors);
+        $finalColors = $this->parseFinalColors($colors, $colorPercentage);
 
         return array_slice($finalColors, 0, $paletteSize);
     }
 
     /**
-     * @param array $colorsArray
+     * @param $colorsArray
      * @return array
      */
-    protected function parseFinalColors($colorsArray)
+    protected function getPercentageOfColors($colorsArray)
+    {
+        $totalColors = 0;
+        $percentageArray = [];
+
+        foreach ($colorsArray as $colorCount) {
+            $totalColors += $colorCount;
+        }
+
+        foreach($colorsArray as $color => $colorCount) {
+            $percentage = ($colorCount/$totalColors) * 100;
+            $percentageArray[$color] = number_format($percentage, 2, ".", "");
+        }
+
+        return $percentageArray;
+    }
+
+    /**
+     * @param array $colorsArray
+     * @param array $percentageArray
+     * @return array
+     */
+    protected function parseFinalColors($colorsArray, $percentageArray)
     {
         $colors = [];
 
@@ -115,7 +142,7 @@ class Image
             $colors[] = [
                 'hex' => $this->toHex($color),
                 'rgb' => $this->getRGBComponents($color),
-                'percent' => $info
+                'percent' => (isset($percentageArray[$color])) ? $percentageArray[$color] : 0
             ];
         }
 
@@ -148,9 +175,9 @@ class Image
                 $color = ($rgba['red']*65536) + ($rgba['green']*256) + ($rgba['blue']);
 
                 if (isset($colors[$color])) {
-                    $colors[$color]['count']++;
+                    $colors[$color]++;
                 } else {
-                    $colors[$color]['count'] = 1;
+                    $colors[$color] = 1;
                 }
             }
         }
@@ -224,7 +251,7 @@ class Image
 
         return $saturation < .5 ?
             (1 - $luminosity) * $count / $colorsCount :
-            $count * ($saturation) * $luminosity;
+            $count * $saturation * $luminosity;
     }
 
     /**

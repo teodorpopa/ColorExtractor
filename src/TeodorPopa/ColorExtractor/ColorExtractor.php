@@ -38,7 +38,6 @@ class ColorExtractor
                     break;
                 default:
                     throw new \Exception('This image type is not supported.');
-                    break;
             }
 
             return new Image($imageResource);

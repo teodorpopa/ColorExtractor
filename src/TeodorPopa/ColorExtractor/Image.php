@@ -21,7 +21,7 @@ class Image
     protected $colors;
 
     /**
-     * @param resource $imageResource
+     * @param resource $resource
      */
     public function __construct($resource)
     {

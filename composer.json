@@ -1,0 +1,28 @@
+{
+  "name": "teodorpopa/color-extractor",
+  "type": "library",
+  "description": "Extract colors from an image",
+  "keywords": ["image", "color", "pallete", "export"],
+  "homepage": "https://github.com/teodorpopa/ColorExtractor",
+  "license": "GNU",
+  "authors": [
+    {
+      "name": "Teodor Popa",
+      "email": "popa.teodor@gmail.com",
+      "homepage": "http://www.teodorpopa.ro",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "ext-gd": "*"
+  },
+  "require-dev": {
+    "codeclimate/php-test-reporter": "dev-master"
+  },
+  "autoload": {
+    "psr-0": {
+      "TeodorPopa\\ColorExtractor": ["src", "tests"]
+    }
+  }
+}

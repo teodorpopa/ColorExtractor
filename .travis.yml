@@ -1,0 +1,12 @@
+language: php
+
+rvm:
+ - "master"
+
+before_script:
+  - composer install --dev --no-interaction
+
+script: phpunit -v -c phpunit.xml --coverage-clover build/logs/clover.xml
+
+after_script:
+  - php vendor/bin/coveralls -v

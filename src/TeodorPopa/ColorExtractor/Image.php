@@ -2,7 +2,7 @@
 
 namespace TeodorPopa\ColorExtractor;
 
-use TeodorPopa\ColorExtractor\Algorithm\CIEDE2000;
+use TeodorPopa\ColorExtractor\Algorithms\CIEDE2000;
 
 /**
  * Class Image

@@ -1,9 +1,9 @@
 <?php
 
-namespace TeodorPopa\ColorExtractor\Algorithm;
+namespace TeodorPopa\ColorExtractor\Algorithms;
 
 /**
- * Color Distance CeiDe2000
+ * Color Distance CIEDE2000
  *
  * @link http://www.ece.rochester.edu/~gsharma/ciede2000/ciede2000noteCRNA.pdf
  */

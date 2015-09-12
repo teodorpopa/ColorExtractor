@@ -64,7 +64,7 @@ class Css implements ExporterInterface
      */
     protected function prependCssComment($comment)
     {
-        $string = '/**' . PHP_EOL;
+        $string = '/*' . PHP_EOL;
         $string .= ' *' . PHP_EOL;
 
         $lines = explode("/n", $comment);
@@ -74,7 +74,7 @@ class Css implements ExporterInterface
         }
 
         $string .= ' *' . PHP_EOL;
-        $string .= ' **//';
+        $string .= ' *//';
 
         $this->css .= $string;
 

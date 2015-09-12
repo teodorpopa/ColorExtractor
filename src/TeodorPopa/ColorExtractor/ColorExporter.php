@@ -24,16 +24,16 @@ class ColorExporter
 
     /**
      * minify a exported file content
-     * for .css or .sass
+     * for .css
      */
     const EXPORTER_OPTION_MINIFY = 'minify';
 
     /**
      * Export a color palette in one of the following formats:
-     * - Adobe Color Format [.aco]
-     * - Cascading Style Sheet [.css]
-     * - Portable Network Graphics [.png]
-     * - Syntactically Awesome Style Sheets [.sass]
+     * - aco -> Adobe Color Format [.aco]
+     * - css -> Cascading Style Sheet [.css]
+     * - png -> Portable Network Graphics [.png]
+     * - sass -> Syntactically Awesome Style Sheets [.scss]
      *
      * @param Color[] $colors
      * @param string $format
@@ -54,7 +54,7 @@ class ColorExporter
             case 'png':
                 $exporter = new Png();
                 break;
-            case 'less':
+            case 'sass':
                 $exporter = new Sass();
                 break;
             default:

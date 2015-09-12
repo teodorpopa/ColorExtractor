@@ -23,6 +23,12 @@ class ColorExporter
     const EXPORTER_OPTION_COMMENT = 'comment';
 
     /**
+     * minify a exported file content
+     * for .css or .sass
+     */
+    const EXPORTER_OPTION_MINIFY = 'minify';
+
+    /**
      * Export a color palette in one of the following formats:
      * - Adobe Color Format [.aco]
      * - Cascading Style Sheet [.css]

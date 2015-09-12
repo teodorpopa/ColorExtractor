@@ -30,6 +30,7 @@
 namespace TeodorPopa\ColorExtractor;
 
 use TeodorPopa\ColorExtractor\Algorithms\CIEDE2000;
+use TeodorPopa\ColorExtractor\Assets\Color;
 
 /**
  * Class Image
@@ -60,7 +61,7 @@ class Image
      *
      * @return array
      */
-    public function extract($maxPaletteSize = 8)
+    public function extract($maxPaletteSize = 5)
     {
         $colors = $this->getImageColors();
         $colorPercentage = $this->getPercentageOfColors($colors);
@@ -130,7 +131,8 @@ class Image
             }
         }
 
-        $finalColors = $this->parseFinalColors($colors, $colorPercentage);
+        arsort($colorPercentage);
+        $finalColors = $this->parseFinalColors($colorPercentage);
 
         return array_slice($finalColors, 0, $paletteSize);
     }
@@ -150,27 +152,26 @@ class Image
 
         foreach ($colorsArray as $color => $colorCount) {
             $percentage = ($colorCount/$totalColors) * 100;
-            $percentageArray[$color] = number_format($percentage, 2, ".", "");
+            $percentageArray[$color] = $percentage;
         }
 
         return $percentageArray;
     }
 
     /**
-     * @param array $colorsArray
      * @param array $percentageArray
-     * @return array
+     * @return Color[]
      */
-    protected function parseFinalColors($colorsArray, $percentageArray)
+    protected function parseFinalColors($percentageArray)
     {
         $colors = [];
 
-        foreach ($colorsArray as $color => $info) {
-            $colors[] = [
+        foreach ($percentageArray as $color => $info) {
+            $colors[] = new Color([
                 'hex' => $this->toHex($color),
                 'rgb' => $this->getRGBComponents($color),
-                'percent' => (isset($percentageArray[$color])) ? $percentageArray[$color] : 0
-            ];
+                'percentage' => round($info, 2),
+            ]);
         }
 
         return $colors;

@@ -2,7 +2,7 @@
 
 namespace TeodorPopa\ColorExtractor\Exporters;
 
-class Less implements ExporterInterface
+class Sass implements ExporterInterface
 {
 
     public function export($colors)

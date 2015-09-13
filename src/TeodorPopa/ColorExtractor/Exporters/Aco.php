@@ -19,7 +19,8 @@ class Aco implements ExporterInterface
      */
     public function export($colors, $options = [])
     {
-        $filename = (!empty($options[ColorExporter::EXPORTER_OPTION_FILENAME])) ?: $this->filename;
+        $filename = (!empty($options[ColorExporter::EXPORTER_OPTION_FILENAME])) ?
+            $options[ColorExporter::EXPORTER_OPTION_FILENAME] : $this->filename;
 
         $acoFile = $this->createAcoFile($colors);
 
@@ -41,7 +42,7 @@ class Aco implements ExporterInterface
         $out = $this->convert(1);
         $out .= $this->convert($colorCount);
 
-        for ($k = 1; $k <= $colorCount; $k++) {
+        for ($k = 0; $k < $colorCount; $k++) {
             $out .= $this->convert(0);
             $out .= $this->convert(($colors[$k]->rgb[0]<<8)|$colors[$k]->rgb[0]);
             $out .= $this->convert(($colors[$k]->rgb[1]<<8)|$colors[$k]->rgb[1]);
@@ -52,17 +53,17 @@ class Aco implements ExporterInterface
         $out .= $this->convert(2);
         $out .= $this->convert($colorCount);
 
-        for ($l = 1; $l <= $colorCount; $l++) {
+        for ($l = 0; $l < $colorCount; $l++) {
             $out .= $this->convert(0);
             $out .= $this->convert(($colors[$l]->rgb[0]<<8)|$colors[$l]->rgb[0]);
             $out .= $this->convert(($colors[$l]->rgb[1]<<8)|$colors[$l]->rgb[1]);
             $out .= $this->convert(($colors[$l]->rgb[2]<<8)|$colors[$l]->rgb[2]);
             $out .= $this->convert(0);
             $out .= $this->convert(0);
-            $out .= $this->convert(strlen($this->colors[$l]->hex) + 1);
+            $out .= $this->convert(strlen($colors[$l]->hex) + 1);
 
-            for ($m = 0; $m <= strlen($this->colors[$l]->hex) - 1; $m++) {
-                $out .= $this->convert(ord(substr($this->colors[$l]->hex, $m, $m + 1)));
+            for ($m = 0; $m <= strlen($colors[$l]->hex) - 1; $m++) {
+                $out .= $this->convert(ord(substr($colors[$l]->hex, $m, $m + 1)));
             }
 
             $out .= $this->convert(0);

@@ -3,6 +3,7 @@
 namespace TeodorPopa\ColorExtractor\Exporters;
 
 use TeodorPopa\ColorExtractor\Assets\Color;
+use TeodorPopa\ColorExtractor\ColorExporter;
 
 class Sass implements ExporterInterface
 {
@@ -18,9 +19,10 @@ class Sass implements ExporterInterface
 
     public function export($colors, $options = [])
     {
-        $filename = (!empty($options[ColorExporter::EXPORTER_OPTION_FILENAME])) ?: $this->filename;
+        $filename = (!empty($options[ColorExporter::EXPORTER_OPTION_FILENAME])) ?
+            $options[ColorExporter::EXPORTER_OPTION_FILENAME] : $this->filename;
 
-        if (in_array(ColorExporter::EXPORTER_OPTION_COMMENT, $options)) {
+        if (array_key_exists(ColorExporter::EXPORTER_OPTION_COMMENT, $options)) {
             $this->prependSassComment($options[ColorExporter::EXPORTER_OPTION_COMMENT]);
         }
 
@@ -41,8 +43,10 @@ class Sass implements ExporterInterface
     {
         $sass = $this->sass;
 
+        $hex = (substr($color, 0, 1) == "#") ? $color->hex : "#" . $color->hex;
+
         foreach ($colors as $color) {
-            $sass .= "\$color_" . ltrim($color->hex, '#') . ": " . $color->hex . PHP_EOL;
+            $sass .= "\$color_" . ltrim($hex, '#') . ": " . $hex . PHP_EOL;
         }
 
         $this->sass = $sass;

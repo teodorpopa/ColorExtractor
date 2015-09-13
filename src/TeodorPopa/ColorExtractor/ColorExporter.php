@@ -38,7 +38,7 @@ class ColorExporter
      * @param Color[] $colors
      * @param string $format
      */
-    public static function export(array $colors, $format = 'aco')
+    public static function export(array $colors, array $options = [], $format = 'aco')
     {
         if (empty($colors)) {
             throw new \Exception('Please provide a valid Color[] to export.');
@@ -61,6 +61,6 @@ class ColorExporter
                 throw new \Exception('Invalid export format');
         }
 
-        return $exporter->export($colors);
+        return $exporter->export($colors, $options);
     }
 }

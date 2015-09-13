@@ -3,6 +3,7 @@
 namespace TeodorPopa\ColorExtractor\Exporters;
 
 use TeodorPopa\ColorExtractor\Assets\Color;
+use TeodorPopa\ColorExtractor\ColorExporter;
 
 class Css implements ExporterInterface
 {
@@ -18,9 +19,10 @@ class Css implements ExporterInterface
 
     public function export($colors, $options = [])
     {
-        $filename = (!empty($options[ColorExporter::EXPORTER_OPTION_FILENAME])) ?: $this->filename;
+        $filename = (!empty($options[ColorExporter::EXPORTER_OPTION_FILENAME])) ?
+            $options[ColorExporter::EXPORTER_OPTION_FILENAME] : $this->filename;
 
-        if (in_array(ColorExporter::EXPORTER_OPTION_COMMENT, $options)) {
+        if (array_key_exists(ColorExporter::EXPORTER_OPTION_COMMENT, $options)) {
             $this->prependCssComment($options[ColorExporter::EXPORTER_OPTION_COMMENT]);
         }
 
@@ -44,12 +46,14 @@ class Css implements ExporterInterface
         $css = $this->css;
 
         foreach ($colors as $color) {
-            $css .= ".color_" . ltrim($color->hex, '#') . " {";
-            $css .= "\tcolor: " . $color->hex;
+            $hex = (substr($color, 0, 1) == "#") ? $color->hex : "#" . $color->hex;
+
+            $css .= ".color_" . ltrim($hex, '#') . " {";
+            $css .= "\tcolor: " . $hex;
             $css .= "}";
             $css .= "\n";
-            $css .= ".background_" . ltrim($color->hex, '#') . " {";
-            $css .= "\tbackground-color: " . $color->hex;
+            $css .= ".background_" . ltrim($hex, '#') . " {";
+            $css .= "\tbackground-color: " . $hex;
             $css .= "}";
             $css .= "\n";
         }
@@ -64,17 +68,18 @@ class Css implements ExporterInterface
      */
     protected function prependCssComment($comment)
     {
+
         $string = '/*' . PHP_EOL;
         $string .= ' *' . PHP_EOL;
 
-        $lines = explode("/n", $comment);
+        $lines = explode(PHP_EOL, $comment);
 
         foreach ($lines as $line) {
-            $string .= ' * ' . $line;
+            $string .= ' * ' . $line . PHP_EOL;
         }
 
         $string .= ' *' . PHP_EOL;
-        $string .= ' *//';
+        $string .= ' */' . PHP_EOL . PHP_EOL;
 
         $this->css .= $string;
 

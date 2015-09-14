@@ -46,7 +46,7 @@ class Css implements ExporterInterface
         $css = $this->css;
 
         foreach ($colors as $color) {
-            $hex = (substr($color, 0, 1) == "#") ? $color->hex : "#" . $color->hex;
+            $hex = (substr($color->hex, 0, 1) == "#") ? $color->hex : "#" . $color->hex;
 
             $css .= ".color_" . ltrim($hex, '#') . " {";
             $css .= "\tcolor: " . $hex;

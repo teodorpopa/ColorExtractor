@@ -43,9 +43,8 @@ class Sass implements ExporterInterface
     {
         $sass = $this->sass;
 
-        $hex = (substr($color, 0, 1) == "#") ? $color->hex : "#" . $color->hex;
-
         foreach ($colors as $color) {
+            $hex = (substr($color->hex, 0, 1) == "#") ? $color->hex : "#" . $color->hex;
             $sass .= "\$color_" . ltrim($hex, '#') . ": " . $hex . PHP_EOL;
         }
 
